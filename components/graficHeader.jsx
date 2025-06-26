@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Chart from "chart.js/auto";
 import styles from "./graficHeader.module.css";
 import axios from "axios";
+import ListRefeicoes from "./listRefeicoes";
 
 export default function GraficHeader() {
   const [data, setData] = useState(null); // null em vez de []
@@ -196,11 +197,10 @@ export default function GraficHeader() {
             {consumoGordura} / <span className={styles.total}>{totalGordura} g</span>
           </div>
         </div>
-      </div>
+        </div>
       </div>
 
-
-      
+      <ListRefeicoes dados={data}/>
 
     </div>
   );
