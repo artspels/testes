@@ -1,0 +1,12 @@
+.footer{
+    width: 100%;
+    background-color: #1D1C1C;
+}
+
+.btnNavs{
+    color:#FFF;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2rem;
+    margin: 0 15px;
+    padding: 0px;
+}

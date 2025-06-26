@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+  <title>Gráfico Circular com Bordas Arredondadas</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .container{
+      background-color: #a9a6a6;
+      display: flex;
+    }
+    .container-center {
+      width: 300px;
+      height: 300px;
+      position: relative;
+      margin: 50px auto;
+    }
+    #myChart{
+      width: 300px;
+      height: 300px;
+    }
+    .center-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .number {
+      font-size: 16px;
+      font-weight: bold;
+      color: #514E4E;
+    }
+    .label {
+      font-size: 12px;
+      font-weight: bold;
+      color: #9D9999;
+    }
+
+
+    .progress-bar-container {
+      width: 80%;
+      max-width: 300px;
+      background-color: #EAEAEA;
+      border-radius: 10px;
+      overflow: hidden;
+      height: 10px;
+      margin-top: 20px;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background-color: #3ABFF8;
+      width: 0;
+      transition: width 0.5s ease;
+    }
+
+    .progress-text {
+      margin-top: 5px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .progress-text .total {
+      font-weight: bold;
+    }
+
+    @media(max-width: 600px) {
+      .container-center {
+        width: 100px;
+        height: 100px;
+        margin: 50px 0;
+      }
+      #myChart{
+        width: 100px;
+        height: 100px;
+      }
+    
+      .number {
+        font-size: 12px;
+      }
+      .label {
+        font-size: 10px;
+      }
+    }
+
+    
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="container-center">
+    <div class="center-text">
+      <div class="number">1.291</div>
+      <div class="label">Consumidas</div>
+    </div>
+  </div>
+  <div class="container-center">
+    <canvas id="myChart"></canvas>
+    <div class="center-text">
+      <div class="number">826</div>
+      <div class="label">Restantes</div>
+    </div>
+  </div>
+  <div class="container-center">
+    <div class="center-text">
+      <div class="number">2.120</div>
+      <div class="label">Total</div>
+    </div>
+  </div>
+
+</div>
+<div>
+    <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="proteinBar"></div>
+    </div>
+    <div class="progress-text">
+        <span id="proteinCurrent">35</span> / <span class="total" id="proteinTotal">103 g</span>
+    </div>
+</div>
+
+<script>
+  const ctx = document.getElementById('myChart').getContext('2d');
+
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      datasets: [{
+        data: [75, 25],  // 75% preenchido, 25% vazio
+        backgroundColor: ['#61D6C0', '#F1EBEB'],  // Cor principal e fundo cinza claro
+        borderWidth: 2,  // borda
+        borderRadius: 10,  // Arredondamento nas pontas
+        cutout: '70%',  // TAMANHO DA BORDA
+      }]
+    },
+    options: {
+      rotation: 220,  // Começar de cima
+      circumference: 280,  // Deixar o arco com 280 graus (não completo)
+      responsive: false,
+      plugins: {
+        tooltip: {enabled: false},
+        legend: {display: false}
+      }
+    }
+  });
+
+
+  let currentProtein = 35;
+  let totalProtein = 103;
+
+  function updateProteinBar() {
+    const percent = (currentProtein / totalProtein) * 100;
+    document.getElementById('proteinBar').style.width = percent + '%';
+    document.getElementById('proteinCurrent').textContent = currentProtein;
+    document.getElementById('proteinTotal').textContent = totalProtein + ' g';
+  }
+
+  updateProteinBar();
+
+ 
+  function updateValues( newProtein, newTotalProtein) {
+
+    // Atualiza Proteína
+    currentProtein = newProtein;
+    totalProtein = newTotalProtein;
+    updateProteinBar();
+  }
+
+  // ==== Exemplo: Atualizar os valores após 3 segundos ====
+  setTimeout(() => {
+    updateValues(1200, 2000, 80, 103);  // Exemplo: 1200 calorias restantes e 80g proteína
+  }, 3000);
+</script>
+
+</body>
+</html>
