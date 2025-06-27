@@ -67,6 +67,26 @@
     background-color: #2599dc;
 }
 
+.btnNewRefeicao{
+   background-color: #0488D6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: #FFF;
+    font-size: 30px;
+    transition: 0.2s ease;
+    margin: 0 auto;
+    margin-bottom: 1rem ;
+}
+.btnNewRefeicao:hover{
+    cursor: pointer;
+    font-size: 36px;
+    background-color: #2599dc;
+}
+
 
 @media(max-width: 900px) {
     .container{

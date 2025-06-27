@@ -58,7 +58,7 @@ export default function GraficHeader() {
     
     const caloriePercent =
       ((currentCalories / totalCalories) * 100) < 0
-        ? 100
+        ? 0
         : (currentCalories / totalCalories) * 100;
 
     if (chartInstance.current) {
@@ -67,7 +67,7 @@ export default function GraficHeader() {
     console.log(consumoCalories,totalCalories,currentCalories,caloriePercent, ((currentCalories / totalCalories) * 100))
 
     const ctx = chartRef.current.getContext("2d");
-
+console.log(100 - caloriePercent, caloriePercent)
     chartInstance.current = new Chart(ctx, {
       type: "doughnut",
       data: {
