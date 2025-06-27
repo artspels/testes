@@ -1,4 +1,4 @@
-import database from "/infra/database.js"; 
+import database from "/lib/db.js"; 
 
 async function status(request, response) {
   try {
