@@ -1,5 +1,5 @@
-import pool from "@/lib/db";
-import { verifyToken } from "@/lib/auth";
+import pool from "/lib/db";
+import { verifyToken } from "/lib/auth/verify-token";
 
 export default async function handler(req, res) {
   if (req.method !== "PUT") {
@@ -9,15 +9,20 @@ export default async function handler(req, res) {
   const { id } = req.query;
   const { name, password } = req.body;
 
-  // Autenticar
+  
+
+  // Verificação do token
   const user = verifyToken(req);
   if (!user) {
     return res.status(401).json({ error: "Token inválido ou ausente" });
   }
 
-  if (parseInt(user.id) !== parseInt(id)) {
-    return res.status(403).json({ error: "Você não tem permissão para editar esse cliente" });
-  }
+
+
+  // Verifica se o id do token bate com o id da URL para validade so o mesmo cliente pode alterar
+  // if (parseInt(user.id) !== parseInt(id)) {
+  //   return res.status(403).json({ error: "Você não tem permissão para editar esse cliente" });
+  // }
 
   if (!name && !password) {
     return res.status(400).json({ error: "Informe nome ou senha para atualizar" });
@@ -26,22 +31,28 @@ export default async function handler(req, res) {
   try {
     const fields = [];
     const values = [];
-    let i = 1;
 
+    // Mapeia os campos dinamicamente
     if (name) {
-      fields.push(`name = $${i++}`);
+      fields.push(`name = $${fields.length + 1}`);
       values.push(name);
+      
     }
 
     if (password) {
-      fields.push(`password = $${i++}`);
+      fields.push(`password = $${fields.length + 1}`);
       values.push(password);
+      
     }
 
     values.push(id);
-    const query = `UPDATE cliente SET ${fields.join(", ")} WHERE id = $${i}`;
 
-    await pool.query(query, values);
+    const query = `UPDATE clients SET ${fields.join(", ")} WHERE id = $${fields.length + 1}`;
+
+    await pool.query({
+      text: query,
+      values: values
+    });
 
     res.status(200).json({ message: "Cliente atualizado com sucesso!" });
   } catch (err) {

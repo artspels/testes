@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import styles from "./admin.module.css";
+import styles from "./listaalunos.module.css";
 
-export default function Admin() {
+export default function ListaAlunos() {
   const [alunos, setAlunos] = useState([]);
   const [filtro, setFiltro] = useState("");
   const router = useRouter();
@@ -26,7 +26,7 @@ export default function Admin() {
   );
 
   const irParaEdicao = (id) => {
-    router.push(`/alunos/${id}`);
+    router.push(`/admin/alunos/${id}`);
   };
 
   return (

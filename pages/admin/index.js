@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Admin from "/components/admin/admin"; 
+import ListaAlunos from "/components/admin/listaalunos";
 
 export default function HomeAdmin() {
   const router = useRouter();
@@ -36,5 +36,5 @@ export default function HomeAdmin() {
 
   if (!authorized) return null; // ou um loading...
 
-  return <Admin />;
+  return <ListaAlunos />;
 }
