@@ -4,6 +4,7 @@ import ListaAlunos from "/components/admin/listaalunos";
 import {  Montserrat } from 'next/font/google';
 import Header from "components/admin/header";
 
+
 const montserrat = Montserrat({
 subsets: ['latin'],
 weight: ['400', '600', '700'],

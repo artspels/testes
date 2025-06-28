@@ -88,7 +88,7 @@ export default function EditarAluno() {
 
   return (
     <>
-
+      <Header url="" />
       <div className={`${montserrat.variable} ${styles.container}`}>
         
         {toast && (
@@ -98,7 +98,7 @@ export default function EditarAluno() {
             onClose={() => setToast(null)}
           />
         )}
-        <Header url="" />
+        
         <h1 className={styles.titulo}>Editar Perfil de {aluno.name}</h1>
 
         <form className={styles.form} onSubmit={atualizarCliente}>
@@ -125,7 +125,7 @@ export default function EditarAluno() {
 
           <div className={styles.campo}>
             <label>Dieta</label>
-            <textarea placeholder="Descreva a dieta personalizada"></textarea>
+            <botton onClick={(e)=>{e.preventDefault; router.push(`/admin/alunos/dieta/${id}`)}}>Teste</botton>
           </div>
 
           <div className={styles.campo}>

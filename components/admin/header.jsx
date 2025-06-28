@@ -12,7 +12,7 @@ export default function Header({ url }) {
   return (
     <div className={styles.container}>
 
-      <Image src="/logo.png" alt="Logo" width={40} height={40} className={styles.image} />
+      <Image src="/Logo.svg" alt="Logo" width={60} height={60} className={styles.image} />
 
       <button onClick={Voltar} className={styles.btnVoltar}>Voltar</button>
     </div>

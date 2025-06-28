@@ -1,0 +1,28 @@
+.container {
+  padding: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.input {
+  padding: 8px;
+  font-size: 16px;
+}
+
+.botao {
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.botao:hover {
+  background-color: #4095f6;
+}

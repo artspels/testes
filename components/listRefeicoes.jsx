@@ -33,5 +33,5 @@ export default function ListRefeicoes({ dados }) {
     );
   }
 
-  return <div className={styles.container} key={index}><a className={styles.btnNewRefeicao}>+</a></div>;
+  return <div className={styles.container} ><a className={styles.btnNewRefeicao}>+</a></div>;
 }
