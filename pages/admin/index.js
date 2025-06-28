@@ -1,6 +1,16 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import ListaAlunos from "/components/admin/listaalunos";
+import {  Montserrat } from 'next/font/google';
+import Header from "components/admin/header";
+
+const montserrat = Montserrat({
+subsets: ['latin'],
+weight: ['400', '600', '700'],
+variable: '--font-montserrat',
+});
+
+
 
 export default function HomeAdmin() {
   const router = useRouter();
@@ -36,5 +46,10 @@ export default function HomeAdmin() {
 
   if (!authorized) return null; // ou um loading...
 
-  return <ListaAlunos />;
+  return (
+    <div className={montserrat.variable}>
+      <Header url="admin/login" />
+      <ListaAlunos />
+    </div>
+  );
 }

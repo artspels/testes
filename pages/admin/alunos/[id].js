@@ -2,6 +2,14 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styles from "./layout.module.css";
 import Toast from "/components/admin/toast"
+import {  Montserrat } from 'next/font/google';
+import Header from "components/admin/header";
+
+const montserrat = Montserrat({
+subsets: ['latin'],
+weight: ['400', '600', '700'],
+variable: '--font-montserrat',
+});
 
 export default function EditarAluno() {
   const router = useRouter();
@@ -74,58 +82,62 @@ export default function EditarAluno() {
     }
   }
 
-  setTimeout(() => setToast(null), 5000);
+  setTimeout(() => setToast(null), 6000);
   if (carregando) return <p>Carregando...</p>;
   if (!aluno) return <p>Aluno não encontrado.</p>;
 
   return (
-    <div className={styles.container}>
-      {toast && (
-        <Toast
-          mensagem={toast.mensagem}
-          tipo={toast.tipo}
-          onClose={() => setToast(null)}
-        />
-      )}
-      
-      <h1 className={styles.titulo}>Editar Perfil de {aluno.name}</h1>
+    <>
 
-      <form className={styles.form} onSubmit={atualizarCliente}>
-        {mensagem && <p>{mensagem}</p>}
-
-        <div className={styles.campo}>
-          <label>Nome</label>
-          <input
-            type="text"
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
+      <div className={`${montserrat.variable} ${styles.container}`}>
+        
+        {toast && (
+          <Toast
+            mensagem={toast.mensagem}
+            tipo={toast.tipo}
+            onClose={() => setToast(null)}
           />
-        </div>
+        )}
+        <Header url="" />
+        <h1 className={styles.titulo}>Editar Perfil de {aluno.name}</h1>
 
-        <div className={styles.campo}>
-          <label>Nova Senha</label>
-          <input
-            type="password"
-            placeholder="Digite a nova senha"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-          />
-        </div>
+        <form className={styles.form} onSubmit={atualizarCliente}>
+          {mensagem && <p>{mensagem}</p>}
 
-        <div className={styles.campo}>
-          <label>Dieta</label>
-          <textarea placeholder="Descreva a dieta personalizada"></textarea>
-        </div>
+          <div className={styles.campo}>
+            <label>Nome</label>
+            <input
+              type="text"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+            />
+          </div>
 
-        <div className={styles.campo}>
-          <label>Treino</label>
-          <textarea placeholder="Descreva o plano de treino"></textarea>
-        </div>
+          <div className={styles.campo}>
+            <label>Nova Senha</label>
+            <input
+              type="password"
+              placeholder="Digite a nova senha"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+            />
+          </div>
 
-        <button type="submit" className={styles.botao}>
-          Salvar Alterações
-        </button>
-      </form>
-    </div>
+          <div className={styles.campo}>
+            <label>Dieta</label>
+            <textarea placeholder="Descreva a dieta personalizada"></textarea>
+          </div>
+
+          <div className={styles.campo}>
+            <label>Treino</label>
+            <textarea placeholder="Descreva o plano de treino"></textarea>
+          </div>
+
+          <button type="submit" className={styles.botao}>
+            Salvar Alterações
+          </button>
+        </form>
+      </div>
+    </>
   );
 }
