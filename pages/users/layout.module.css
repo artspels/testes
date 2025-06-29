@@ -11,7 +11,7 @@
 .wrapper{
     background-color: #ffffff26;
     width: 90%;
-    max-width: 700px;
+    max-width: 920px;
     min-height: 500px;
     position: absolute;
     top: 4rem;
@@ -27,4 +27,17 @@
     background-image: url('/img/bckgMobile.png');
 }
 
+}
+
+@media(max-height: 650px) {
+
+    .wrapper{
+        top: 2.5rem;
+    }
+    .marginBot{
+        width: 100%;
+        position: absolute;
+        height: 2rem;
+        bottom: -1rem;
+    }
 }

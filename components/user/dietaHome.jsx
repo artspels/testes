@@ -7,14 +7,10 @@ import { CircleAlert, CirclePlay } from "lucide-react";
 
 export default function DietaHome({ setActiveComponent }){
     const router = useRouter("");
-    const [activeComponentGrafic, setActiveComponentGrafic] = useState("");
-    const renderComponent = () => {
-        if (activeComponentGrafic === "") return <h1>teste</h1>;
-        if (activeComponentGrafic === "startDieta") return <h1>iniciando dieta</h1>;
-        return null;
-    };
+
 
     return(
+        
         <div className={styles.container}>
             <div className={styles.header}>
                 <Logo />
@@ -27,7 +23,7 @@ export default function DietaHome({ setActiveComponent }){
                 <div className={styles.containerAviso}>
                     <div className={styles.wrapperAviso}>
                         <div className={styles.wrapperTitle}>
-                            <div className={styles.iconLinks}><CircleAlert  color="#FFFFFF" size={26} /></div>
+                            <div className={ `${styles.iconLinks} ${styles.iconTow}`}><CircleAlert  color="#FFFFFF" size={23} /></div>
                             <h1 className={styles.title}>Importante !</h1>
                         </div>      
                         <p className={styles.text}>
@@ -36,8 +32,8 @@ export default function DietaHome({ setActiveComponent }){
                         </p>         
                     </div>
                 </div>
-                {renderComponent()}
-                <button className={styles.btnLinks} onClick={() => setActiveComponentGrafic("startDieta")}> <div className={styles.wraperTextLink}>Marcar Dieta <div className={styles.iconLinks}><CirclePlay  color="#FFFFFF" size={26} /> </div></div></button>
+                
+                <button className={styles.btnLinks} onClick={() => setActiveComponent("graficDieta")}> <div className={styles.wraperTextLink}>Marcar Dieta <div className={styles.iconLinks}><CirclePlay  color="#FFFFFF" size={26} /> </div></div></button>
             </div>
         </div>
     )

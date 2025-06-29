@@ -1,13 +1,15 @@
 .container{
+    margin: 0 auto;
     margin-top: 2rem;
     background-color: #FFF6F6;
     display: flex;
     flex-direction: column;
-    width: fit-content;
-    width: 900px;
+    width: -moz-fit-content;
+    width: 90%;
     border-radius: 15px;
     box-shadow: 1px 4px 8px 2px #00000052;
     font-family: "Montserrat",sans-serif;
+    padding-top: 15px;
 }
 
 .ulRefeicoes{
@@ -38,14 +40,14 @@
 }
 
 .title{
-    font-size: 12px;
+    font-size: 16px;
     font-weight: bold;
     color: #514E4E;
     margin: 0;
 }
 
 .values{
-    font-size: 10px;
+    font-size: 14px;
     color: #9D9999;
 }
 
@@ -78,8 +80,8 @@
     color: #FFF;
     font-size: 30px;
     transition: 0.2s ease;
-    margin: 0 auto;
-    margin-bottom: 1rem ;
+    margin: 1rem auto;
+
 }
 .btnNewRefeicao:hover{
     cursor: pointer;
@@ -89,12 +91,18 @@
 
 
 @media(max-width: 900px) {
-    .container{
-        width: 300px;
-    }
 
     .wrapperText{
         width: 60%;
     }
+}
 
+
+@media(max-width: 600px) {
+    .title{
+        font-size: 12px;
+    }
+    .values{
+        font-size: 10px;
+    }
 }

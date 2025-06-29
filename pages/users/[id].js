@@ -6,49 +6,73 @@ import DietaGrafics from "components/user/dietaGrafics";
 import DietaHome from "components/user/dietaHome";
 import TreinoHome from "components/user/treinoHome";
 import EvolucaoHome from "components/user/evolucaoHome";
+import {jwtDecode} from "jwt-decode";
+import GraficHeader from "components/user/graficDieta";
 
 export default function Users(){
     const router = useRouter();
     const [authorized, setAuthorized] = useState(false);
     const [activeComponent, setActiveComponent] = useState("");
 
+
     const renderComponent = () => {
         if (activeComponent === "") return <UserHome setActiveComponent={setActiveComponent} />;
         if (activeComponent === "treino") return <TreinoHome setActiveComponent={setActiveComponent}/>;
         if (activeComponent === "dieta") return <DietaHome setActiveComponent={setActiveComponent}/>;
         if (activeComponent === "evolucao") return <EvolucaoHome setActiveComponent={setActiveComponent}/>;
+        if (activeComponent === "graficDieta") return <GraficHeader setActiveComponent={setActiveComponent}/>;
         return null;
     };
 
     useEffect(() => {
-    const token = localStorage.getItem("token");
+        const token = localStorage.getItem("token");
 
-    
-    if (!token) {
-        router.push("/users/login");
-        return;
-    }
+        if (!token) {
+            router.push("/users/login");
+            return;
+        }
 
-    // Opcional: valida o token com o backend
-    fetch("/api/client/auth/verify-token", {
-        headers: {
-        authorization: `Bearer ${token}`,
-        },
-    })
+        if (!router.isReady) return; // Espera o Next.js terminar de montar a rota
+        const { id } = router.query;
+        if (!id) return;
+
+        let decoded;
+        try {
+            decoded = jwtDecode(token);
+        } catch (error) {
+            localStorage.removeItem("token");
+            router.push("/users/login");
+            return;
+        }
+
+        const userIdFromToken = String(decoded.id);
+
+        if (userIdFromToken !== id) {
+            router.push("/users/login");
+            return;
+        }
+
+        // Validação opcional com o backend
+        fetch("/api/client/auth/verify-token", {
+            headers: {
+            authorization: `Bearer ${token}`,
+            },
+        })
         .then((res) => {
-        if (res.ok) {
-            console.log(res)
+            if (res.ok) {
             setAuthorized(true);
         } else {
             localStorage.removeItem("token");
             router.push("/users/login");
-        }
+          }
         })
         .catch(() => {
-        localStorage.removeItem("token");
-        router.push("/users/login");
+            localStorage.removeItem("token");
+            router.push("/users/login");
         });
-    }, []);
+
+    }, [router.isReady, router.query.id]);
+
 
     if (!authorized) return null;
 
@@ -60,6 +84,9 @@ export default function Users(){
         <div className={styles.container}>
             <div className={styles.wrapper}>
                 {renderComponent()}
+            </div>
+            <div className={styles.marginBot}>
+
             </div>
         </div>
     )
