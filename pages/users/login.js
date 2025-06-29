@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { jwtDecode } from "jwt-decode";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -28,7 +29,10 @@ export default function LoginPage() {
 
     localStorage.setItem("token", data.token);
 
-    router.push("/users");
+    const decoded = jwtDecode(data.token);
+    const id = decoded.id;
+
+    router.push(`/users/${id}`);
   };
 
   return (
