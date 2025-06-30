@@ -18,8 +18,8 @@ export default function Users(){
     const renderComponent = () => {
         if (activeComponent === "") return <UserHome setActiveComponent={setActiveComponent} />;
         if (activeComponent === "treino") return <TreinoHome setActiveComponent={setActiveComponent}/>;
-        if (activeComponent === "dieta") return <DietaHome setActiveComponent={setActiveComponent}/>;
-        if (activeComponent === "evolucao") return <EvolucaoHome setActiveComponent={setActiveComponent}/>;
+        if (activeComponent === "dieta") return <DietaHome setActiveComponent={setActiveComponent} />;
+        if (activeComponent === "evolucao") return <EvolucaoHome setActiveComponent={setActiveComponent} />;
         if (activeComponent === "graficDieta") return <GraficHeader setActiveComponent={setActiveComponent}/>;
         return null;
     };

@@ -3,10 +3,12 @@ import styles from "./dietaHome.module.css"
 import { useRouter } from "next/router"
 import { useState } from "react";
 import { CircleAlert, CirclePlay } from "lucide-react";
+import GraficHistoric from "./components/graficHistoric";
+import GraficoBarras from "./components/graficBarras";
 
 
 export default function DietaHome({ setActiveComponent }){
-    const router = useRouter("");
+    const router = useRouter();
 
 
     return(
@@ -18,7 +20,8 @@ export default function DietaHome({ setActiveComponent }){
             </div>
             <div className={styles.wraperContent}>
                 <div >      
-                    Grafico              
+                    <GraficHistoric />  
+                    <GraficoBarras />        
                 </div>
                 <div className={styles.containerAviso}>
                     <div className={styles.wrapperAviso}>
