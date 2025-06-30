@@ -20,7 +20,6 @@ export default function DietaHome({ setActiveComponent }){
             </div>
             <div className={styles.wraperContent}>
                 <div >      
-                    <GraficHistoric />  
                     <GraficoBarras />        
                 </div>
                 <div className={styles.containerAviso}>
