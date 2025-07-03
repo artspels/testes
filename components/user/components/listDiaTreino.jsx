@@ -58,16 +58,18 @@ export default function ListDiaTreino() {
   }
 
   return (
-    <div className={styles.container}>
-      {data.map((d, i) => (
-        <div key={i} className={styles.wrapperDia}>
-          <div className={styles.dianumber}>{d.dia}</div>
-          <div className={`${styles.dia} ${d.isHoje ? styles.inativo : ""}`}>
-            {d.treino || ""}
+    <div>
+      <div className={styles.container}>
+        {data.map((d, i) => (
+          <div key={i} className={styles.wrapperDia}>
+            <div className={styles.dianumber}>{d.dia}</div>
+            <div className={`${styles.dia} ${d.isHoje ? styles.inativo : ""}`}>
+              {d.treino || ""}
+            </div>
+            <div className={styles.sigla}>{d.sigla}</div>
           </div>
-          <div className={styles.sigla}>{d.sigla}</div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }

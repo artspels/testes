@@ -2,6 +2,13 @@
   display: flex;
   gap: 10px;
   font-family: sans-serif;
+  justify-content: space-evenly;
+  background-color: #FFF6F6;
+  border-radius: 15px;
+  box-shadow: 0px 3px 10px 3px rgb(70 65 65 / 25%);
+  padding: 15px 0;
+  width: 95%;
+  margin: 0 auto;
 }
 .wrapperDia{
     display: flex;
@@ -17,6 +24,7 @@
 }
 
 .dia {
+  font-family: 'Montserrat',sans-serif;
   text-align: center;
   background-color: #bde7f8;
   border-radius: 50%;
@@ -27,7 +35,7 @@
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  font-size: 16px;  
+  font-size: 10px;  
 }
 
 .inativo {
@@ -45,7 +53,7 @@
     .dia {
         width: 30px;
         height: 30px;
-        font-size: 14px;
+        font-size: 7px;
     }
 
     .sigla {
@@ -57,6 +65,6 @@
     .dia {
         width: 20px;
         height: 20px;
-        font-size: 12px;
+        font-size: 6px;
     }
 }

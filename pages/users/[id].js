@@ -8,6 +8,7 @@ import TreinoHome from "components/user/treinoHome";
 import EvolucaoHome from "components/user/evolucaoHome";
 import {jwtDecode} from "jwt-decode";
 import GraficHeader from "components/user/graficDieta";
+import DietaCadastro from "components/user/dietaCadastro";
 
 export default function Users(){
     const router = useRouter();
@@ -21,6 +22,7 @@ export default function Users(){
         if (activeComponent === "dieta") return <DietaHome setActiveComponent={setActiveComponent} />;
         if (activeComponent === "evolucao") return <EvolucaoHome setActiveComponent={setActiveComponent} />;
         if (activeComponent === "graficDieta") return <GraficHeader setActiveComponent={setActiveComponent}/>;
+         if (activeComponent === "cadastroDieta") return <DietaCadastro setActiveComponent={setActiveComponent}/>;
         return null;
     };
 

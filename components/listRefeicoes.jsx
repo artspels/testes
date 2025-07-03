@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./listRefeicoes.module.css"
 import axios from "axios";
 
-export default function ListRefeicoes({ dados }) {
+export default function ListRefeicoes({ dados ,setActiveComponent }) {
   const totalRefeicao = dados.total_refeicao;
   const consumerRefeicao = dados.consumer_refeicao;
 
@@ -33,5 +33,5 @@ export default function ListRefeicoes({ dados }) {
     );
   }
 
-  return <div className={styles.container} ><a className={styles.btnNewRefeicao}>+</a></div>;
+  return <div className={styles.container} ><a className={styles.btnNewRefeicao} onClick={() => setActiveComponent("cadastroDieta")}>+</a></div>;
 }

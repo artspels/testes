@@ -4,38 +4,63 @@ import styles from "./graficDieta.module.css";
 import axios from "axios";
 import ListRefeicoes from "components/listRefeicoes";
 import Logo from "components/logo";
+import { useRouter } from "next/router";
+import SalvarConsumoInicialDiario from "controller/cunsumo-inicial-diario";
 
 
 export default function GraficHeader({setActiveComponent}) {
   const [data, setData] = useState(null);
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
+  const router = useRouter();
+  const { id } = router.query;
+  const id_client = id;
+
+  
+
 
   
 
  useEffect(() => {
   async function fetchData() {
     try {
-      const response = await axios.get("/api/dieta");
-      const data = response.data[0];
+      const res = await fetch("/api/dieta-consumer", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({id_client}),
+      });
+
+      const response = await res.json(); 
+
+      setData(response);
+
+
+      console.log('aqui dataaa',(!data))
+
 
       if (!data) {
-        const fallback = await axios.get("/api/meta-user");
-        const meta = fallback.data[0];
+        const respostaaa = await SalvarConsumoInicialDiario({id_client})
+        console.log('respostaaa',respostaaa)
 
-        const adaptedData = {
-          consumer_protein: "0",
-          total_protein: meta.meta_protein,
-          consumer_carboidratos: "0",
-          total_carboidratos: meta.meta_carboidratos,
-          consumer_gordura: "0",
-          total_gordura: meta.meta_gordura,
-          consumer_calorias: "0",
-          total_calorias: meta.meta_calorias,
-          date: meta.data_inicio
-        };
 
-        setData(adaptedData);
+        // const fallback = await axios.get("/api/meta-user");
+        // const meta = fallback.data[0];
+
+        // const adaptedData = {
+        //   consumer_protein: "0",
+        //   total_protein: meta.meta_protein,
+        //   consumer_carboidratos: "0",
+        //   total_carboidratos: meta.meta_carboidratos,
+        //   consumer_gordura: "0",
+        //   total_gordura: meta.meta_gordura,
+        //   consumer_calorias: "0",
+        //   total_calorias: meta.meta_calorias,
+        //   date: meta.data_inicio
+        // };
+
+        // setData(adaptedData);
 
       } else {
         setData(data); // Dado de consumo do dia
@@ -205,7 +230,7 @@ console.log(100 - caloriePercent, caloriePercent)
         </div>
       </div>
 
-      <ListRefeicoes dados={data}/>
+      <ListRefeicoes dados={data} setActiveComponent={setActiveComponent}/>
 
     </div>
   );
