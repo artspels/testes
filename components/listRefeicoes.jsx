@@ -2,36 +2,50 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./listRefeicoes.module.css"
 import axios from "axios";
 
-export default function ListRefeicoes({ dados ,setActiveComponent }) {
+export default function ListRefeicoes({ dados, setActiveComponent, setDataIndex }) {
   const totalRefeicao = dados.total_refeicao;
   const consumerRefeicao = dados.consumer_refeicao;
 
+  
+
   if (totalRefeicao && typeof totalRefeicao === "object") {
     return (
-      <>
-        <div className={styles.container} >
-            {Object.entries(totalRefeicao).map(([nome, valor], index) => {
-            const consumido = consumerRefeicao?.[nome] ?? 0; // pega o valor consumido ou 0
-            return (
-                
-                <ul className={styles.ulRefeicoes}>
-                    <li className={styles.liRefeicoes}>
-                    <img src="cofe.png" alt={`imagem ${nome}`} className={styles.iconeRefeicao} />
-                    <div className={styles.wrapperText}>
-                        <h2 className={styles.title}>{nome}</h2>
-                        <div className={styles.values}>{consumido} / {valor} kcal</div>
-                    </div>
-                    <a className={styles.btnAddRefeicao}>+</a>
-                    </li>
-                </ul>
-                
-            );
-            })}
-            <a className={styles.btnNewRefeicao}>+</a>
-        </div>
-      </>
+      <div className={styles.container}>
+        {Object.entries(totalRefeicao).map(([nome, valor], index) => {
+          // Extrai calorias de total e do consumo
+          const totalCalorias = valor ?? 0;
+          const consumidoCalorias = consumerRefeicao?.[nome]?.consumototal?.calorias ?? 0;
+
+          return (
+            <ul key={nome} className={styles.ulRefeicoes}>
+              <li className={styles.liRefeicoes}>
+                <img src="cofe.png" alt={`imagem ${nome}`} className={styles.iconeRefeicao} />
+                <div className={styles.wrapperText}>
+                  <h2 className={styles.title}>{nome}</h2>
+                  <div className={styles.values}>{Number(consumidoCalorias.toFixed(2))} / {totalCalorias} kcal</div>
+                </div>
+                <a
+                  className={styles.btnAddRefeicao}
+                  onClick={() => {
+                    setActiveComponent("editDietas");
+                    setDataIndex(index);
+                  }}
+                >
+                  +
+                </a>
+              </li>
+            </ul>
+          );
+        })}
+        <a className={styles.btnNewRefeicao} onClick={() => setActiveComponent("cadastroDieta")}>+</a>
+      </div>
     );
   }
 
-  return <div className={styles.container} ><a className={styles.btnNewRefeicao} onClick={() => setActiveComponent("cadastroDieta")}>+</a></div>;
+  return (
+    <div className={styles.container}>
+      <a className={styles.btnNewRefeicao} onClick={() => setActiveComponent("cadastroDieta")}>+</a>
+    </div>
+  );
 }
+

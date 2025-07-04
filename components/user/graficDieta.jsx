@@ -7,100 +7,66 @@ import Logo from "components/logo";
 import { useRouter } from "next/router";
 import SalvarConsumoInicialDiario from "controller/cunsumo-inicial-diario";
 
-
-export default function GraficHeader({setActiveComponent}) {
-  const [data, setData] = useState(null);
+export default function GraficHeader({ setActiveComponent , setDataIndex}) {
+  const [consumoData, setConsumoData] = useState(null);
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
   const router = useRouter();
   const { id } = router.query;
-  const id_client = id;
+  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
-  
-
-
-  
-
- useEffect(() => {
-  async function fetchData() {
-    try {
-      const res = await fetch("/api/dieta-consumer", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({id_client}),
-      });
-
-      const response = await res.json(); 
-
-      setData(response);
-
-
-      console.log('aqui dataaa',(!data))
-
-
-      if (!data) {
-        const respostaaa = await SalvarConsumoInicialDiario({id_client})
-        console.log('respostaaa',respostaaa)
-
-
-        // const fallback = await axios.get("/api/meta-user");
-        // const meta = fallback.data[0];
-
-        // const adaptedData = {
-        //   consumer_protein: "0",
-        //   total_protein: meta.meta_protein,
-        //   consumer_carboidratos: "0",
-        //   total_carboidratos: meta.meta_carboidratos,
-        //   consumer_gordura: "0",
-        //   total_gordura: meta.meta_gordura,
-        //   consumer_calorias: "0",
-        //   total_calorias: meta.meta_calorias,
-        //   date: meta.data_inicio
-        // };
-
-        // setData(adaptedData);
-
-      } else {
-        setData(data); // Dado de consumo do dia
-      }
-    } catch (error) {
-      console.error("Erro ao buscar dados:", error);
-    }
-  }
-
-  fetchData();
-}, []);
-
+  // Função auxiliar para calcular o percentual restante (evita negativo)
+  const calcularPercentualRestante = (consumido, total) => {
+    const restante = total - consumido;
+    return Math.max((restante / total) * 100, 0);
+  };
 
   useEffect(() => {
-    if (!data || !chartRef.current) return;
+    async function fetchData() {
+      try {
+        const res = await fetch("/api/dieta-consumer", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id_client: id, token }),
+        });
 
-    const consumoCalories = Number(data.consumer_calorias);
-    const totalCalories = Number(data.total_calorias);
-    const currentCalories = totalCalories - consumoCalories;
+        const response = await res.json();
+        const dados = response[0];
 
-    
-    const caloriePercent =
-      ((currentCalories / totalCalories) * 100) < 0
-        ? 0
-        : (currentCalories / totalCalories) * 100;
+        if (!dados) {
+          const dadosIniciais = await SalvarConsumoInicialDiario(id);
+          setConsumoData(dadosIniciais[0]);
+        } else {
+          setConsumoData(dados);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+      }
+    }
+
+    if (id) fetchData();
+  }, [id, token]);
+
+  useEffect(() => {
+    if (!consumoData || !chartRef.current) return;
+
+    const consumoCal = Number(consumoData.consumer_calorias);
+    const totalCal = Number(consumoData.total_calorias);
+    const percentualRestante = calcularPercentualRestante(consumoCal, totalCal);
 
     if (chartInstance.current) {
       chartInstance.current.destroy();
     }
-    console.log(consumoCalories,totalCalories,currentCalories,caloriePercent, ((currentCalories / totalCalories) * 100))
 
     const ctx = chartRef.current.getContext("2d");
-console.log(100 - caloriePercent, caloriePercent)
+
     chartInstance.current = new Chart(ctx, {
       type: "doughnut",
       data: {
         datasets: [
           {
-            data: [100 - caloriePercent, caloriePercent],
-            backgroundColor: ["#65bbe0","#F1EBEB"],
+            data: [100 - percentualRestante, percentualRestante],
+            backgroundColor: ["#65bbe0", "#F1EBEB"],
             borderWidth: 0,
             borderRadius: 6,
             cutout: "70%",
@@ -113,125 +79,109 @@ console.log(100 - caloriePercent, caloriePercent)
         responsive: true,
         plugins: {
           tooltip: { enabled: false },
-          legend: { display: false },
+          legend: { display: false }, 
         },
       },
     });
-  }, [data]);
+  }, [consumoData]);
 
-  if (!data) {
-    return <div>Carregando gráfico...</div>; 
-  }
+  if (!consumoData) return <div>Carregando gráfico...</div>;
 
-  const consumoCalories = Number(data.consumer_calorias);
-  const totalCalories = Number(data.total_calorias);
-  const currentCalories = totalCalories - consumoCalories;
+  // Variáveis desestruturadas e com nomes claros
+  const {
+    consumer_calorias,
+    total_calorias,
+    consumer_protein,
+    total_protein,
+    consumer_carboidratos,
+    total_carboidratos,
+    consumer_gordura,
+    total_gordura,
+  } = consumoData;
 
-  const caloriePercent =
-    ((currentCalories / totalCalories) * 100) < 0
-      ? 100
-      : (currentCalories / totalCalories) * 100;
-
-  const consumoProtein = Number(data.consumer_protein);
-  const totalProtein = Number(data.total_protein);
-  const currentProtein = totalProtein - consumoProtein;
-  const proteinPercent = 
-  ((currentProtein / totalProtein) * 100) < 0
-      ? 0
-      : (currentProtein / totalProtein) * 100;
-
-  const consumoCarbo = Number(data.consumer_carboidratos);
-  const totalCarbo = Number(data.total_carboidratos);
-  const currentCarbo = totalCarbo - consumoCarbo;
-  const carboPercent = 
-  ((currentCarbo / totalCarbo) * 100) < 0
-      ? 0
-      : (currentCarbo / totalCarbo) * 100;
-  
-  const consumoGordura = Number(data.consumer_gordura);
-  const totalGordura = Number(data.total_gordura);
-  const currentGordura = totalGordura - consumoGordura;
-  const carboGordura = 
-  ((currentGordura / totalGordura) * 100) < 0
-      ? 0
-      : (currentGordura / totalGordura) * 100;
-
+  const restanteCalorias = total_calorias - consumer_calorias;
+  const restanteProteina = total_protein - consumer_protein;
+  const restanteCarbo = total_carboidratos - consumer_carboidratos;
+  const restanteGordura = total_gordura - consumer_gordura;
 
   return (
     <div>
       <div className={styles.header}>
-          <Logo />
-          <button onClick={() => setActiveComponent("dieta")} className={styles.btnVoltar}>Voltar</button>
+        <Logo />
+        <button onClick={() => setActiveComponent("dieta")} className={styles.btnVoltar}>Voltar</button>
       </div>
+
       <div className={styles.container}>
         <div className={styles.containerHeader}>
           <div className={styles.containerCenter}>
             <div className={styles.centerText}>
-              <div className={styles.number}>{consumoCalories }</div>
-              <div className={styles.label}>Consumidas </div>
+              <div className={styles.number}>{consumer_calorias}</div>
+              <div className={styles.label}>Consumidas</div>
             </div>
           </div>
 
           <div className={styles.containerCenter}>
             <canvas ref={chartRef} />
             <div className={styles.centerText}>
-              <div className={styles.number}>{ (currentCalories <= 0 ? 'Bateu a meta' : currentCalories)}</div>
+              <div className={styles.number}>
+                {restanteCalorias <= 0 ? 'Bateu a meta' : restanteCalorias}
+              </div>
               <div className={styles.label}>Restantes</div>
             </div>
           </div>
 
           <div className={styles.containerCenter}>
             <div className={styles.centerText}>
-              <div className={styles.number}>{totalCalories}</div>
+              <div className={styles.number}>{total_calorias}</div>
               <div className={styles.label}>Total</div>
             </div>
           </div>
         </div>
 
         <div className={styles.containerNutrients}>
-        <div className={styles.wrapperProgressBar}>
-          <div className={styles.progressBarContainer}>
-            <div
-              className={styles.progressBarFill}
-              style={{ width: `${100 - proteinPercent}%` }}
-            ></div>
-          </div>
-          <div className={styles.progressTitle}>Proteinas</div>
-          <div className={styles.progressText}>
-            {consumoProtein} / <span className={styles.total}>{totalProtein} g</span>
-          </div>
-        </div>
-
-        <div className={styles.wrapperProgressBar}>
-          <div className={styles.progressBarContainer}>
-            <div
-              className={styles.progressBarFill}
-              style={{ width: `${100 - carboPercent}%` }}
-            ></div>
-          </div>
-          <div className={styles.progressTitle}>Carboidratos</div>
-          <div className={styles.progressText}>
-            {consumoCarbo} / <span className={styles.total}>{totalCarbo} g</span>
-          </div>
-        </div>
-
-        <div className={styles.wrapperProgressBar}>
-          <div className={styles.progressBarContainer}>
-            <div
-              className={styles.progressBarFill}
-              style={{ width: `${100 - carboGordura}%` }}
-            ></div>
-          </div>
-          <div className={styles.progressTitle}>Gorduras</div>
-          <div className={styles.progressText}>
-            {consumoGordura} / <span className={styles.total}>{totalGordura} g</span>
-          </div>
-        </div>
+          {[
+            {
+              label: "Proteínas",
+              consumido: consumer_protein,
+              total: total_protein,
+              restante: restanteProteina,
+            },
+            {
+              label: "Carboidratos",
+              consumido: consumer_carboidratos,
+              total: total_carboidratos,
+              restante: restanteCarbo,
+            },
+            {
+              label: "Gorduras",
+              consumido: consumer_gordura,
+              total: total_gordura,
+              restante: restanteGordura,
+            },
+          ].map((nutriente, idx) => (
+            <div key={idx} className={styles.wrapperProgressBar}>
+              <div className={styles.progressBarContainer}>
+                <div
+                  className={styles.progressBarFill}
+                  style={{
+                    width: `${100 - calcularPercentualRestante(
+                      nutriente.consumido,
+                      nutriente.total
+                    )}%`,
+                  }}
+                ></div>
+              </div>
+              <div className={styles.progressTitle}>{nutriente.label}</div>
+              <div className={styles.progressText}>
+                {nutriente.consumido} /{" "}
+                <span className={styles.total}>{nutriente.total} g</span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
-      <ListRefeicoes dados={data} setActiveComponent={setActiveComponent}/>
-
+      <ListRefeicoes dados={consumoData} setActiveComponent={setActiveComponent} setDataIndex={setDataIndex}/>
     </div>
   );
 }

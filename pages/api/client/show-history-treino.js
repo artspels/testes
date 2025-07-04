@@ -8,9 +8,7 @@ export default async function showHistoryTreino(req, res) {
 
   const { id_client, token } = req.body;
 
-  if (!id_client || !token) {
-    return res.status(400).json({ error: 'Dados incompletos' });
-  }
+  
 
   try {
     const decoded = jwtDecode(token);

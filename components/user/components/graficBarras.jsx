@@ -4,6 +4,7 @@ import styles from "./graficBarras.module.css"
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ReferenceLine, ResponsiveContainer, Cell
 } from 'recharts';
+import ConsultarMetaClient from 'controller/consultar-meta-cliente';
 
 function comparar(valor, limite, operador) {
   switch (operador) {
@@ -17,15 +18,18 @@ export default function GraficoBarras() {
   const [dieta, setDieta] = useState([]);
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState(null);
-  const operador = '<';
+  const [metaDieta, setMetaDieta] = useState([])
+  const operador = '>';
   const router = useRouter();
 
   useEffect(() => {
     async function fetchDieta() {
+      const { id } = router.query;
+      const id_client = id;
+
       try {
         const token = localStorage.getItem('token');
-        const { id } = router.query;
-        const id_client = id;
+        
 
         if (!token || !id_client) {
           setErro('Token ou ID do cliente ausente.');
@@ -73,7 +77,6 @@ export default function GraficoBarras() {
             calorias: Number(item.consumer_calorias),
             meta: Number(item.total_calorias),
           }));
-          console.log(diasCompletos)
           const dadosFinal = diasCompletos.map((dia) => {
             const encontrado = dadosAPI.find((item) => item.dataISO === dia.dataISO);
             return {
@@ -93,9 +96,13 @@ export default function GraficoBarras() {
       } finally {
         setLoading(false);
       }
+
+      const valueMetaTratado = await ConsultarMetaClient(id_client);
+      setMetaDieta(valueMetaTratado[0].meta_calorias);
     }
 
     fetchDieta();
+
   }, [router.query]);
 
   if (loading) return <p>Carregando dieta...</p>;
@@ -160,12 +167,13 @@ export default function GraficoBarras() {
             />
 
             <Tooltip />
-            <ReferenceLine y={dieta[0].meta} stroke="limegreen" strokeWidth={2} />
+ 
+            <ReferenceLine y={metaDieta} stroke="limegreen" strokeWidth={2} />
             <Bar dataKey="calorias" radius={[10, 10, 0, 0]}>
               {dieta.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
-                  fill={comparar(entry.calorias, entry.meta, operador) ? "#e76f6f" : "#80d4ff"}
+                  fill={comparar(entry.calorias, metaDieta, operador) ? "#e76f6f" : "#80d4ff"}
                 />
               ))}
             </Bar>

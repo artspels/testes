@@ -1,4 +1,7 @@
-export default async function SalvarConsumoInicialDiario({ id }) {
+export default async function SalvarConsumoInicialDiario(id) {
+
+  const token = localStorage.getItem("token");
+
   const payload = {
     id_client: parseInt(id),
     consumer_protein: '0',
@@ -6,10 +9,8 @@ export default async function SalvarConsumoInicialDiario({ id }) {
     consumer_gordura: '0',
     consumer_calorias: '0',
     consumer_refeicao: [], 
+    token,
   };
-
-  console.log('aasaa')
-  
 
   try {
     
@@ -18,7 +19,7 @@ export default async function SalvarConsumoInicialDiario({ id }) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({payload}),
+      body: JSON.stringify(payload),
     });
 
     const data = await res.json();
@@ -33,3 +34,9 @@ export default async function SalvarConsumoInicialDiario({ id }) {
     alert("Erro ao conectar com API:", error)
   }
 }
+
+
+
+
+
+

@@ -16,7 +16,7 @@ export default function EditarAluno() {
   const { id } = router.query;
   const [aluno, setAluno] = useState(null);
   const [nome, setNome] = useState("");
-  const [senha, setSenha] = useState("");
+  const [senha, setSenha] = useState(""); 
   const [mensagem, setMensagem] = useState("");
   const [carregando, setCarregando] = useState(true);
   const [toast, setToast] = useState(null);
