@@ -1,6 +1,8 @@
+import { useRouter } from "next/router";
 import Footer from "../components/footer";
 import GraficHeader from "../components/graficHeader";
 import {  Montserrat, Open_Sans } from 'next/font/google';
+import { useEffect } from "react";
 
 const montserrat = Montserrat({
 subsets: ['latin'],
@@ -15,13 +17,17 @@ variable: '--font-open-sans',
 });
  
 export default function App(){
+    const router = useRouter();
 
+    useEffect(() => {
+        router.push("/users/login"); 
+    }, [router.isReady, router.query.id]);
+   
     
 
     return (
         <>
         <div className={`${montserrat.variable} ${openSans.variable}`}>
-            <GraficHeader />
         </div>
             
         </>

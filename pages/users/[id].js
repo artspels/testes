@@ -38,7 +38,7 @@ export default function Users(){
         const token = localStorage.getItem("token");
 
         if (!token) {
-            router.push("/users/login");
+            router.push("/users/login"); 
             return;
         }
 
