@@ -11,6 +11,7 @@ import GraficHeader from "components/user/graficDieta";
 import DietaCadastro from "components/user/dietaCadastro";
 import EditConsumoDiario from "components/user/components/editConsumoDiario";
 import Toast from "components/admin/toast";
+import ConfigureHome from "components/user/configureHome";
 
 export default function Users(){
     const router = useRouter();
@@ -28,6 +29,7 @@ export default function Users(){
         if (activeComponent === "graficDieta") return <GraficHeader setActiveComponent={setActiveComponent} setDataIndex={setDataIndex}/>;
         if (activeComponent === "cadastroDieta") return <DietaCadastro setActiveComponent={setActiveComponent} />;
         if (activeComponent === "editDietas") return <EditConsumoDiario setActiveComponent={setActiveComponent} index={dataIndex} setToast={setToast}/>;
+        if (activeComponent === "configuracao") return <ConfigureHome setActiveComponent={setActiveComponent}/>;
          
         return null;
     };
@@ -100,9 +102,9 @@ export default function Users(){
             <div className={styles.wrapper}>
                 {renderComponent()}
             </div>
-            <div className={styles.marginBot}>
+            {/* <div className={styles.marginBot}>
 
-            </div>
+            </div> */}
         </div>
     )
 }

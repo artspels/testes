@@ -13,7 +13,7 @@ export default async function handler(req, res) {
 
   if (!user) return res.status(401).json({ error: "Credenciais inválidas" });
 
-  const token = jwt.sign({ id: user.id, name: user.name }, process.env.JWT_SECRET, {
+  const token = jwt.sign({ id: user.id, name: user.name, permission: user.permission }, process.env.JWT_SECRET, {
     expiresIn: "2h",
   });
 

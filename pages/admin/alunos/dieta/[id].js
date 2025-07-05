@@ -2,6 +2,7 @@ import Header from "components/admin/header";
 import styles from "./layout.module.css";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import EditMetas from "components/admin/editMetas";
 
 export default function Dieta() {
   const [metaDiaria, setMetaDiaria] = useState("");
@@ -44,45 +45,7 @@ export default function Dieta() {
     <>
         <Header url="" />
 
-        <div className={styles.container}>
-        <h2>Crie e Edite Dieta</h2>
-
-        <form onSubmit={insertRefeicao} className={styles.form}>
-            <input
-            type="text"
-            placeholder="Meta de Calorias Diária"
-            value={metaDiaria}
-            onChange={(e) => setMetaDiaria(e.target.value)}
-            className={styles.input}
-            />
-
-            <input
-            type="text"
-            placeholder="Carboidratos"
-            value={metaCarboidratos}
-            onChange={(e) => setMetaCarboidratos(e.target.value)}
-            className={styles.input}
-            />
-
-            <input
-            type="text"
-            placeholder="Proteínas"
-            value={metaProteinas}
-            onChange={(e) => setMetaProteinas(e.target.value)}
-            className={styles.input}
-            />
-
-            <input
-            type="text"
-            placeholder="Gorduras"
-            value={metaGorduras}
-            onChange={(e) => setMetaGorduras(e.target.value)}
-            className={styles.input}
-            />
-
-            <button type="submit" className={styles.botao}>Salvar Dieta</button>
-        </form>
-        </div>
+        <EditMetas />
     </>
   );
 }

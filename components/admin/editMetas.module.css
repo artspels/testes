@@ -1,0 +1,131 @@
+/* styles/Refeicoes.module.css */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    padding: 16px;
+    background: #FFF6F6;
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px 2px rgba(0, 0, 0, 0.05);
+    font-family: 'Montserrat', sans-serif;
+}
+
+.refeicao {
+  background: #f9f9f9;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.nome {
+  width: 100%;
+  padding: 8px;
+  font-weight: bold;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  background: #e6e6e6;
+  text-align: center;
+}
+
+.macroInputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.macroInputs input {
+  flex: 1;
+  min-width: 100px;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  background: #e6e6e6;
+}
+
+.total {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.remover {
+  background: #888;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  display: block;
+  margin: 0 auto;
+}
+
+.acoes {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.acoes button {
+  background: #aaa;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.totalDieta {
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 16px 0;
+  padding: 12px;
+  background: #dcdcdc;
+  border-radius: 8px;
+}
+
+.salvar {
+  width: 100%;
+  background: #666;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+
+.inputNumber::-webkit-outer-spin-button,
+.inputNumber::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.inputNumber {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+@media (max-width: 480px) {
+  .macroInputs {
+    flex-direction: column;
+  }
+
+  .macroInputs input {
+    width: 100%;
+  }
+
+  .acoes {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .acoes button {
+    width: 100%;
+  }
+}

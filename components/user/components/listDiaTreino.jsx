@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "./listDiaTreino.module.css";
 import { useRouter } from "next/router";
 import { format } from "date-fns"; // Instalar com: npm install date-fns
+import { BadgeX } from "lucide-react";
 
 export default function ListDiaTreino() {
   const diasSemana = ["dom", "seg", "ter", "qua", "qui", "sex", "sab"];
@@ -64,7 +65,7 @@ export default function ListDiaTreino() {
           <div key={i} className={styles.wrapperDia}>
             <div className={styles.dianumber}>{d.dia}</div>
             <div className={`${styles.dia} ${d.isHoje ? styles.inativo : ""}`}>
-              {d.treino || ""}
+              {d.treino || <div className={styles.iconLinks}><BadgeX size={14} /> </div>}
             </div>
             <div className={styles.sigla}>{d.sigla}</div>
           </div>

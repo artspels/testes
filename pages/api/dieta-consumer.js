@@ -17,7 +17,7 @@ async function status(request, response) {
     const { id: idToken } = jwtDecode(token);
     if (String(idToken) !== String(id_client)) {
       return res.status(403).json({ error: 'Usuário não autorizado' });
-    }
+    } 
 
     
     const formatter = new Intl.DateTimeFormat('sv-SE', {

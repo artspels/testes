@@ -163,7 +163,7 @@ export default function EditConsumoDiario({ setActiveComponent, index ,setToast}
       const resposta = await res.json();
 
       if (res.ok) {
-        setToast({ mensagem: "Cliente atualizado com sucesso!", tipo: "sucesso" });
+        setToast({ mensagem: "Dieta atualizado com sucesso!", tipo: "sucesso" });
         setActiveComponent("graficDieta");
       } else {
         console.error("Erro ao salvar dieta:", resposta.message);

@@ -22,7 +22,7 @@ export default function UserHome({ setActiveComponent }){
                     <a className={styles.btnLinks} onClick={() => setActiveComponent("dieta")}><div className={styles.wraperTextLink}> Minha Dieta <div className={styles.iconLinks}><Salad  color="#FFFFFF" size={26} /></div></div></a>
                     <a className={styles.btnLinks} onClick={() => setActiveComponent("evolucao")}><div className={styles.wraperTextLink}>Minha Evolução <div className={styles.iconLinks}><ChartNoAxesCombined  color="#FFFFFF" size={26} /> </div></div></a>
                 </div>
-                <a className={styles.btnLinks} onClick={(e) => e.preventDefault()}><div className={styles.wraperTextLink}>Configuração <div className={styles.iconLinks}><UserRoundCog  color="#FFFFFF" size={26} /> </div></div></a>
+                <a className={styles.btnLinks} onClick={() => setActiveComponent("configuracao")}><div className={styles.wraperTextLink}>Configuração <div className={styles.iconLinks}><UserRoundCog  color="#FFFFFF" size={26} /> </div></div></a>
         
             </div>
         </div>

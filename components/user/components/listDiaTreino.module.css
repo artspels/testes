@@ -48,7 +48,14 @@
   color: #777;
   font-family: 'Montserrat',sans-serif;
 }
-
+.iconLinks{
+  width: 25px;
+  height: 25px;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  border-radius:50%
+}
 @media(max-width: 600px) {
     .dia {
         width: 30px;

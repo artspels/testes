@@ -124,7 +124,7 @@ export default function GraficHeader({ setActiveComponent , setDataIndex}) {
             <canvas ref={chartRef} />
             <div className={styles.centerText}>
               <div className={styles.number}>
-                {restanteCalorias <= 0 ? 'Bateu a meta' : restanteCalorias}
+                {restanteCalorias <= 0 ? 'Bateu a meta' : restanteCalorias.toFixed(2)}
               </div>
               <div className={styles.label}>Restantes</div>
             </div>

@@ -65,7 +65,7 @@ export default function EditarAluno() {
           password: senha,
         }),
       });
-
+ 
       const data = await response.json();
 
       if (!response.ok) {
@@ -110,7 +110,7 @@ export default function EditarAluno() {
               type="text"
               value={nome}
               onChange={(e) => setNome(e.target.value)}
-            />
+            /> 
           </div>
 
           <div className={styles.campo}>

@@ -18,12 +18,6 @@ export default async function handler(req, res) {
   }
 
 
-
-  // Verifica se o id do token bate com o id da URL para validade so o mesmo cliente pode alterar
-  // if (parseInt(user.id) !== parseInt(id)) {
-  //   return res.status(403).json({ error: "Você não tem permissão para editar esse cliente" });
-  // }
-
   if (!name && !password) {
     return res.status(400).json({ error: "Informe nome ou senha para atualizar" });
   }
